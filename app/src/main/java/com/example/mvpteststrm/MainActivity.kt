@@ -34,11 +34,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MaterialTheme {
-        LandingPage(navController = rememberNavController())
-    }
-}
