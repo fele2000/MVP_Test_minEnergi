@@ -101,18 +101,35 @@ fun BottomNavigationBar() {
     NavigationBar(
         modifier = Modifier.fillMaxWidth()
     ) {
+        // Priser
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_home), contentDescription = "Home") },
-            label = { Text("Home") },
+            label = { Text("priser") },
             selected = false,
             onClick = { /* Handle click */ }
         )
+        // Forbrug
+        NavigationBarItem(
+            icon = { Icon(painter = painterResource(id = R.drawable.ic_usage), contentDescription = "Profile") },
+            label = { Text("Forbrug") },
+            selected = false,
+            onClick = { /* Handle click */ }
+        )
+        // Find Selskab
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_search), contentDescription = "Search") },
-            label = { Text("Search") },
+            label = { Text("Find Selskaber") },
             selected = false,
             onClick = { /* Handle click */ }
         )
+        // Planlæg
+        NavigationBarItem(
+            icon = { Icon(painter = painterResource(id = R.drawable.ic_plan), contentDescription = "Profile") },
+            label = { Text("Planlæg") },
+            selected = false,
+            onClick = { /* Handle click */ }
+        )
+        // Profile
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_profile), contentDescription = "Profile") },
             label = { Text("Profile") },
