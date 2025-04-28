@@ -5,7 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mvpteststrm.ui.findselskaber.FindSelskaberPage
+import com.example.mvpteststrm.ui.forbrug.ForbrugPage
 import com.example.mvpteststrm.ui.landing.LandingPage
+import com.example.mvpteststrm.ui.planlaeg.PlanlaegPage
+import com.example.mvpteststrm.ui.profil.ProfilPage
 
 @Composable
 fun Navigation() {
@@ -16,9 +20,9 @@ fun Navigation() {
         startDestination = "landing"
     ) {
         composable("landing") { LandingPage(navController) }
-        // Later you can add more:
-        // composable("forbrug") { ForbrugPage(navController) }
-        // composable("findSelskaber") { FindSelskabPage(navController) }
-        // etc.
+        composable("forbrug") { ForbrugPage(navController) }
+        composable("findselskaber") { FindSelskaberPage(navController) }
+        composable("planlaeg") { PlanlaegPage(navController) }
+        composable("profil") { ProfilPage(navController) }
     }
 }
