@@ -30,14 +30,19 @@ fun LandingPage(navController: NavController) {
             color = Color.Black,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = 8.dp, vertical = 8.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             text = "I dag - Fredag 11. April",
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontSize = 12.sp
+            ),
+        color = Color.Black,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -48,6 +53,7 @@ fun LandingPage(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp)
+                .padding(8.dp)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -55,27 +61,58 @@ fun LandingPage(navController: NavController) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
+                .width(375.dp)
+                .height(45.dp)
                 .background(Color.Green)
+                .align(Alignment.CenterHorizontally)
         ) {
             Text(
                 text = "CO2-venlig strøm: 52%",
                 color = Color.White,
                 fontSize = 18.sp,
-                modifier = Modifier.padding(12.dp)
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        Image(
-            painter = painterResource(id = R.drawable.placeholder_ad_image),
-            contentDescription = "Ad Image",
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-        )
+                .width(375.dp)
+                .height(275.dp)
+                .background(Color.Blue)
+                .padding(16.dp) // Add nice inner padding
+                .align(Alignment.CenterHorizontally)
+
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "CO2-venlig strøm: 52%",
+                    color = Color.White,
+                    fontSize = 20.sp
+                )
+
+                Image(
+                    painter = painterResource(id = R.drawable.placeholder_ad_image),
+                    contentDescription = "Ad Image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                )
+
+                Text(
+                    text = "CO2-venlig strøm: 52%",
+                    color = Color.White,
+                    fontSize = 20.sp
+                )
+            }
+        }
+
+
+
 
         Spacer(modifier = Modifier.weight(1f))
 
