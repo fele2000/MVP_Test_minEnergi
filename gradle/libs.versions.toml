@@ -12,6 +12,7 @@ mpandroidchart = "v3.1.0"
 material = "1.10.0"
 appcompat = "1.7.0"
 foundationAndroid = "1.8.0"
+navigationCompose = "2.8.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +33,7 @@ mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
