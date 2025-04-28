@@ -74,9 +74,9 @@ fun LandingPage(navController: NavController) {
         Box(
             modifier = Modifier
                 .width(375.dp)
-                .height(275.dp)
-                .background(Color.Blue)
-                .padding(16.dp) // Add nice inner padding
+                .height(140.dp)
+                .background(Color.LightGray)
+                .padding(16.dp)
                 .align(Alignment.CenterHorizontally)
 
         ) {
@@ -92,19 +92,6 @@ fun LandingPage(navController: NavController) {
                     fontSize = 20.sp
                 )
 
-                Image(
-                    painter = painterResource(id = R.drawable.placeholder_ad_image),
-                    contentDescription = "Ad Image",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(150.dp)
-                )
-
-                Text(
-                    text = "CO2-venlig strøm: 52%",
-                    color = Color.White,
-                    fontSize = 20.sp
-                )
             }
         }
 

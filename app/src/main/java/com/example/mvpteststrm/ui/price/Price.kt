@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.nativeCanvas
 import com.example.mvpteststrm.data.model.Price
 
 // Noget af nedenstående er med hjælp fra chatten.
@@ -54,42 +55,30 @@ fun PriceGraph(viewModel: PriceViewModel = viewModel()) {
         Spacer(modifier = Modifier.height(16.dp))
 
         // Grafen
-        Graph(prices = prices)
+        GraphWithTiltedPricesAndTimes(prices = prices)
 
         Spacer(modifier = Modifier.height(8.dp))
 
         // Tidspunkterne nederst
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            prices.forEach { price ->
-                Text(
-                    text = price.time.toString().padStart(2, '0'),
-                    style = MaterialTheme.typography.labelSmall,
-                    modifier = Modifier.width(12.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-    }
-}
 
-@Composable
-fun Graph(prices: List<Price>) {
-    val maxPrice = prices.maxOfOrNull { it.pricePerKwh } ?: 1.0
+    }
+}@Composable
+fun GraphWithTiltedPricesAndTimes(prices: List<Price>) {
+    val maxPrice = remember(prices) { prices.maxOfOrNull { it.pricePerKwh } ?: 1.0 }
 
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
+            .height(380.dp) // Taller to fit price and time labels
             .padding(horizontal = 14.dp)
     ) {
         val barWidth = size.width / prices.size
+        val priceLabelHeight = 50.dp.toPx()
+        val timeLabelHeight = 30.dp.toPx()
+        val availableHeight = size.height - priceLabelHeight - timeLabelHeight
+
         prices.forEachIndexed { index, price ->
-            val barHeight = (price.pricePerKwh / maxPrice) * size.height
+            val barHeight = (price.pricePerKwh / maxPrice) * availableHeight
             val barLeft = index * barWidth
 
             val barColor = when {
@@ -98,11 +87,52 @@ fun Graph(prices: List<Price>) {
                 else -> Color(0xFF4CAF50)
             }
 
+            // Draw tilted price label
+            drawContext.canvas.nativeCanvas.apply {
+                save() // Save the current state
+                val textPaint = android.graphics.Paint().apply {
+                    color = android.graphics.Color.BLACK
+                    textAlign = android.graphics.Paint.Align.CENTER
+                    textSize = 24f
+                    isAntiAlias = true
+                }
+                val x = barLeft + (barWidth * 0.62f)
+                val y = priceLabelHeight - 25f
+                rotate(-70f, x, y) // Rotate around the text position (negative = tilt right)
+                drawText(
+                    String.format("%.1f", price.pricePerKwh),
+                    x,
+                    y,
+                    textPaint
+                )
+                restore() // Restore to normal after rotation
+            }
+
+            // Draw the bar
             drawRect(
                 color = barColor,
-                topLeft = Offset(barLeft, (size.height - barHeight).toFloat()),
+                topLeft = Offset(barLeft,
+                    (priceLabelHeight + (availableHeight - barHeight)).toFloat()
+                ),
                 size = Size(barWidth * 0.8f, barHeight.toFloat())
             )
+
+            // Draw time label under the bar
+            drawContext.canvas.nativeCanvas.apply {
+                val timePaint = android.graphics.Paint().apply {
+                    color = android.graphics.Color.DKGRAY
+                    textAlign = android.graphics.Paint.Align.CENTER
+                    textSize = 22f
+                    isAntiAlias = true
+
+                }
+                drawText(
+                    price.time.toString(),
+                    barLeft + (barWidth * 0.4f),
+                    size.height - 35f,
+                    timePaint
+                )
+            }
         }
     }
 }
