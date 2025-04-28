@@ -24,11 +24,14 @@ fun LandingPage(navController: NavController) {
     ) {
         Text(
             text = "Elpriser",
-            style = MaterialTheme.typography.headlineMedium,
-            fontSize = 28.sp,
-            color = Color.Black
+            style = MaterialTheme.typography.headlineMedium.copy(
+                fontSize = 28.sp
+            ),
+            color = Color.Black,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         )
-
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
