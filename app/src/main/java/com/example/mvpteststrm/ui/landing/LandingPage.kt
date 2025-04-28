@@ -15,9 +15,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mvpteststrm.R
 import com.example.mvpteststrm.ui.components.BottomNavigationBar
+import com.example.mvpteststrm.ui.price.PriceGraph
 
 @Composable
 fun LandingPage(navController: NavController) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,14 +49,9 @@ fun LandingPage(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Image(
-            painter = painterResource(id = R.drawable.placeholder_bar_chart),
-            contentDescription = "Bar Chart Placeholder",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp)
-                .padding(8.dp)
-        )
+       Box() {
+           PriceGraph()
+       }
 
         Spacer(modifier = Modifier.height(24.dp))
 
