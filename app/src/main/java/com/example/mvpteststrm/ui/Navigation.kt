@@ -14,15 +14,31 @@ import com.example.mvpteststrm.ui.profil.ProfilPage
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
+    var selectedItem = "landing"
 
     NavHost(
         navController = navController,
         startDestination = "landing"
     ) {
-        composable("landing") { LandingPage(navController) }
-        composable("forbrug") { ForbrugPage(navController) }
-        composable("findselskaber") { FindSelskaberPage(navController) }
-        composable("planlæg") { PlanlaegPage(navController) }
-        composable("profil") { ProfilPage(navController) }
+        composable("landing") {
+            selectedItem = "landing"
+            LandingPage(navController)
+        }
+        composable("forbrug") {
+            selectedItem = "forbrug"
+            ForbrugPage(navController)
+        }
+        composable("findSelskaber") {
+            selectedItem = "findSelskaber"
+            FindSelskaberPage(navController)
+        }
+        composable("planlaeg") {
+            selectedItem = "planlaeg"
+            PlanlaegPage(navController)
+        }
+        composable("profil") {
+            selectedItem = "profil"
+            ProfilPage(navController)
+        }
     }
 }

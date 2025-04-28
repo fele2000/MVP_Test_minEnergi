@@ -19,6 +19,6 @@ fun FindSelskaberPage(navController: NavController) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        BottomNavigationBar(navController)
+        BottomNavigationBar(navController, selectedItem = "forbrug")
     }
 }

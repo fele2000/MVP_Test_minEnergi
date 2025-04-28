@@ -10,38 +10,38 @@ import androidx.navigation.NavController
 import com.example.mvpteststrm.R
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(navController: NavController, selectedItem: String) {
     NavigationBar(
         modifier = Modifier.fillMaxWidth()
     ) {
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_home), contentDescription = "Priser") },
             label = { Text("Priser") },
-            selected = false,
+            selected = selectedItem == "landing",
             onClick = { navController.navigate("landing") }
         )
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_usage), contentDescription = "Forbrug") },
             label = { Text("Forbrug") },
-            selected = false,
+            selected = selectedItem == "forbrug",
             onClick = { navController.navigate("forbrug") }
         )
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_search), contentDescription = "Find Selskaber") },
             label = { Text("El aftaler") },
-            selected = false,
+            selected = selectedItem == "findSelskaber",
             onClick = { navController.navigate("findSelskaber") }
         )
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_plan), contentDescription = "Planlæg") },
             label = { Text("Planlæg") },
-            selected = false,
-            onClick = { navController.navigate("planlæg") }
+            selected = selectedItem == "planlaeg",
+            onClick = { navController.navigate("planlaeg") }
         )
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_profile), contentDescription = "Profil") },
             label = { Text("Profil") },
-            selected = false,
+            selected = selectedItem == "profil",
             onClick = { navController.navigate("profil") }
         )
     }
