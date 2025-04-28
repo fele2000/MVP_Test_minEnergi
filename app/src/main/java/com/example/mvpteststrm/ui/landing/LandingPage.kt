@@ -21,7 +21,6 @@ fun LandingPage(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
     ) {
         Text(
             text = "Elpriser",

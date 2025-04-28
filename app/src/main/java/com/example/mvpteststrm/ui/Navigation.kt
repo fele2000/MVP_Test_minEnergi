@@ -22,7 +22,7 @@ fun Navigation() {
         composable("landing") { LandingPage(navController) }
         composable("forbrug") { ForbrugPage(navController) }
         composable("findselskaber") { FindSelskaberPage(navController) }
-        composable("planlaeg") { PlanlaegPage(navController) }
+        composable("planlæg") { PlanlaegPage(navController) }
         composable("profil") { ProfilPage(navController) }
     }
 }

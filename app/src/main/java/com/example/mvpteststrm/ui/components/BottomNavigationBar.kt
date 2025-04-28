@@ -27,7 +27,7 @@ fun BottomNavigationBar(navController: NavController) {
         )
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_search), contentDescription = "Find Selskaber") },
-            label = { Text("Find Selskaber") },
+            label = { Text("El aftaler") },
             selected = false,
             onClick = { navController.navigate("findSelskaber") }
         )
@@ -35,7 +35,7 @@ fun BottomNavigationBar(navController: NavController) {
             icon = { Icon(painter = painterResource(id = R.drawable.ic_plan), contentDescription = "Planlæg") },
             label = { Text("Planlæg") },
             selected = false,
-            onClick = { navController.navigate("plan") }
+            onClick = { navController.navigate("planlæg") }
         )
         NavigationBarItem(
             icon = { Icon(painter = painterResource(id = R.drawable.ic_profile), contentDescription = "Profil") },
