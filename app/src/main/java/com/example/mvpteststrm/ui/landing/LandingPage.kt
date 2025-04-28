@@ -47,7 +47,7 @@ fun LandingPage(navController: NavController) {
             .padding(horizontal = 8.dp)
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(14.dp))
 
        Box() {
            PriceGraph()

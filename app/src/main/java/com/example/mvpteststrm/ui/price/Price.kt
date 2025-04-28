@@ -52,14 +52,12 @@ fun PriceGraph(viewModel: PriceViewModel = viewModel()) {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
 
         // Grafen
         GraphWithTiltedPricesAndTimes(prices = prices)
 
-        Spacer(modifier = Modifier.height(8.dp))
 
-        // Tidspunkterne nederst
+
 
     }
 }@Composable
