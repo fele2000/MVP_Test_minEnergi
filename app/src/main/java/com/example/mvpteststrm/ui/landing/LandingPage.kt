@@ -4,13 +4,19 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,7 +36,7 @@ fun LandingPage(navController: NavController) {
         Text(
             text = "Elpriser",
             style = MaterialTheme.typography.headlineMedium.copy(
-                fontSize = 28.sp
+                fontSize = 32.sp
             ),
             color = Color.Black,
             modifier = Modifier
@@ -42,7 +48,7 @@ fun LandingPage(navController: NavController) {
         Text(
             text = "I dag - Fredag 11. April",
             style = MaterialTheme.typography.bodyMedium.copy(
-                fontSize = 12.sp
+                fontSize = 16.sp
             ),
         color = Color.Black,
         modifier = Modifier
@@ -63,7 +69,8 @@ fun LandingPage(navController: NavController) {
             modifier = Modifier
                 .width(375.dp)
                 .height(45.dp)
-                .background(Color.Green)
+                .shadow(elevation = 6.dp, shape = RoundedCornerShape(8.dp)) // <-- Add shadow here
+                .background(Color(0xFF22FF1B), shape = RoundedCornerShape(4.dp))
                 .align(Alignment.CenterHorizontally)
         ) {
             Text(
@@ -78,25 +85,51 @@ fun LandingPage(navController: NavController) {
             modifier = Modifier
                 .width(375.dp)
                 .height(140.dp)
-                .background(Color.LightGray)
-                .padding(16.dp)
-                .align(Alignment.CenterHorizontally)
+                .shadow(elevation = 6.dp, shape = RoundedCornerShape(12.dp))
 
+                .background(Color(0xFFFFDD75), shape = RoundedCornerShape(6.dp)) // fallback background
+                .clickable {
+                    navController.navigate("scorePage")
+                }
+                .align(Alignment.CenterHorizontally)
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .padding(5.dp), // Padding inside the box
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "CO2-venlig strøm: 53%",
-                    color = Color.White,
-                    fontSize = 20.sp
+                Image(
+                    painter = painterResource(id = R.drawable.speedometer),
+                    contentDescription = "CO2 Dial",
+                    contentScale = ContentScale.Fit, // Important: don't crop, fit nicely
+                    modifier = Modifier
+                        .weight(2.5f)
+                        .fillMaxWidth()
                 )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .width(375.dp)
+                        .height(45.dp)
+                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp)) // <-- Add shadow here
+                        .background(Color(0xFF0579F8), shape = RoundedCornerShape(8.dp))
+                        .align(Alignment.CenterHorizontally)
+                ) {
+
+                    Text(
+                        text = "Klik her og udforsk din Strøm Score!",
+                        color = Color(0xFFFFFFFF),
+                        fontSize = 20.sp,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+
+
+                    )
+                }
             }
         }
-
 
 
 
