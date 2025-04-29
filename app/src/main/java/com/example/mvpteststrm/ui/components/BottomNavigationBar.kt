@@ -15,11 +15,16 @@ fun BottomNavigationBar(navController: NavController, selectedItem: String) {
         modifier = Modifier.fillMaxWidth()
     ) {
         NavigationBarItem(
-            icon = { Icon(painter = painterResource(id = R.drawable.ic_home), contentDescription = "Priser") },
-            label = { Text("Priser") },
-            selected = selectedItem == "landing",
-            onClick = { navController.navigate("landing") },
-            colors = NavigationBarItemDefaults.colors(
+            icon =
+                { Icon(painter = painterResource(id = R.drawable.ic_home), contentDescription = "Priser") },
+            label =
+                { Text("Priser") },
+            selected =
+                selectedItem == "landing",
+            onClick =
+                { navController.navigate("landing") },
+            colors =
+                NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primary,
                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
@@ -27,11 +32,16 @@ fun BottomNavigationBar(navController: NavController, selectedItem: String) {
             )
         )
         NavigationBarItem(
-            icon = { Icon(painter = painterResource(id = R.drawable.ic_usage), contentDescription = "Forbrug") },
-            label = { Text("Forbrug") },
-            selected = selectedItem == "forbrug",
-            onClick = { navController.navigate("forbrug") },
-            colors = NavigationBarItemDefaults.colors(
+            icon =
+                { Icon(painter = painterResource(id = R.drawable.ic_usage), contentDescription = "Forbrug") },
+            label =
+                { Text("Forbrug") },
+            selected =
+                selectedItem == "forbrug",
+            onClick =
+                { navController.navigate("forbrug") },
+            colors =
+                NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primary,
                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
@@ -39,11 +49,16 @@ fun BottomNavigationBar(navController: NavController, selectedItem: String) {
             )
         )
         NavigationBarItem(
-            icon = { Icon(painter = painterResource(id = R.drawable.ic_search), contentDescription = "Find Selskaber") },
-            label = { Text("El aftaler") },
-            selected = selectedItem == "findSelskaber",
-            onClick = { navController.navigate("findSelskaber") },
-            colors = NavigationBarItemDefaults.colors(
+            icon =
+                { Icon(painter = painterResource(id = R.drawable.ic_search), contentDescription = "Find Selskaber") },
+            label =
+                { Text("El aftaler") },
+            selected =
+                selectedItem == "findSelskaber",
+            onClick =
+                { navController.navigate("findSelskaber") },
+            colors =
+                NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primary,
                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
@@ -51,11 +66,16 @@ fun BottomNavigationBar(navController: NavController, selectedItem: String) {
             )
         )
         NavigationBarItem(
-            icon = { Icon(painter = painterResource(id = R.drawable.ic_plan), contentDescription = "Planlæg") },
-            label = { Text("Planlæg") },
-            selected = selectedItem == "planlaeg",
-            onClick = { navController.navigate("planlaeg") },
-            colors = NavigationBarItemDefaults.colors(
+            icon =
+                { Icon(painter = painterResource(id = R.drawable.ic_plan), contentDescription = "Planlæg") },
+            label =
+                { Text("Planlæg") },
+            selected =
+                selectedItem == "planlaeg",
+            onClick =
+                { navController.navigate("planlaeg") },
+            colors =
+                NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primary,
                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
@@ -63,11 +83,16 @@ fun BottomNavigationBar(navController: NavController, selectedItem: String) {
             )
         )
         NavigationBarItem(
-            icon = { Icon(painter = painterResource(id = R.drawable.ic_profile), contentDescription = "Profil") },
-            label = { Text("Profil") },
-            selected = selectedItem == "profil",
-            onClick = { navController.navigate("profil") },
-            colors = NavigationBarItemDefaults.colors(
+            icon =
+                { Icon(painter = painterResource(id = R.drawable.ic_profile), contentDescription = "Profil") },
+            label =
+                { Text("Profil") },
+            selected =
+                selectedItem == "profil",
+            onClick =
+                { navController.navigate("profil") },
+            colors =
+                NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primary,
                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
