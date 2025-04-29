@@ -7,18 +7,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mvpteststrm.data.model.planlaeg.Device
+import com.example.mvpteststrm.data.model.planlaeg.PlanlaegViewModel
 import com.example.mvpteststrm.ui.components.BottomNavigationBar
 import com.example.mvpteststrm.ui.components.MockCalendar
 import com.example.mvpteststrm.ui.components.price.PriceGraph
@@ -31,6 +34,10 @@ fun PlanlaegPage(navController: NavController) {
     var selectedDate by remember { mutableStateOf<String?>(null) } // ingen valgt dato i starten
 
     var showSheet by remember { mutableStateOf(false) }
+
+    val viewModel: PlanlaegViewModel = viewModel()
+    val devices = viewModel.devices
+
 
     Column(
         modifier = Modifier
@@ -126,6 +133,11 @@ fun PlanlaegPage(navController: NavController) {
             }
         }
 
+        Column {
+            devices.forEach {
+                DeviceCard(it)
+            }
+        }
 
         Row ( modifier = Modifier
             .fillMaxWidth()
@@ -147,11 +159,34 @@ fun PlanlaegPage(navController: NavController) {
                 modifier = Modifier.fillMaxHeight(),
                 containerColor = Color.LightGray
             ) {
-                TilføjEnhedUI()
+                TilføjEnhedUI( onDeviceSelected = { device ->
+                    viewModel.addDevice(device)
+                    showSheet = false
+                })
             }
         }
 
     }
 }
+@Composable
+fun DeviceCard(device: Device) {
+    Row(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .background(color = Color.LightGray)
+            .height(42.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(id = device.icon),
+            contentDescription = device.name,
+            modifier = Modifier.size(26.dp)
+        )
 
-
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = device.name, fontSize = 18.sp)
+        Spacer(modifier = Modifier.weight(1f))
+        Text(text = "Tidsrum: ${device.timeRange}", fontSize = 18.sp)
+    }
+}

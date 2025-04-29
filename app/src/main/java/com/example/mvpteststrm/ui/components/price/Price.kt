@@ -1,12 +1,9 @@
 package com.example.mvpteststrm.ui.components.price
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,8 +15,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.nativeCanvas
-import com.example.mvpteststrm.data.model.Price
-import java.time.LocalTime
+import com.example.mvpteststrm.data.model.price.Price
+import com.example.mvpteststrm.data.model.price.PriceViewModel
 
 // Noget af nedenstående er med lidt hjælp fra ChatGPT.
 

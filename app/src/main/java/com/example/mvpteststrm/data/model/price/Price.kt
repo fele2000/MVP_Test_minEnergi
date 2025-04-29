@@ -1,6 +1,6 @@
 // Model-klasse der repræsenterer en strømpris for en time
 
-package com.example.mvpteststrm.data.model
+package com.example.mvpteststrm.data.model.price
 
 import com.google.gson.annotations.SerializedName
 
