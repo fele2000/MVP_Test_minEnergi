@@ -19,6 +19,5 @@ fun ForbrugPage(navController: NavController) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        BottomNavigationBar(navController, selectedItem = "forbrug")
     }
 }
