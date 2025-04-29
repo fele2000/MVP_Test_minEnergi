@@ -94,7 +94,6 @@ fun LandingPage(navController: NavController) {
                     color = Color.White,
                     fontSize = 20.sp
                 )
-
             }
         }
 
