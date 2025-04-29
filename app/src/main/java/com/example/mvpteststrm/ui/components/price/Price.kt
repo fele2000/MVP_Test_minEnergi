@@ -1,5 +1,8 @@
-package com.example.mvpteststrm.ui.price
+package com.example.mvpteststrm.ui.components.price
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicText
@@ -16,16 +19,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.nativeCanvas
 import com.example.mvpteststrm.data.model.Price
+import java.time.LocalTime
 
-// Noget af nedenstående er med hjælp fra chatten.
+// Noget af nedenstående er med lidt hjælp fra ChatGPT.
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PriceGraph(viewModel: PriceViewModel = viewModel()) {
     val prices by viewModel.prices.collectAsState()
 
     val cheapest = prices.minByOrNull { it.pricePerKwh }
     val mostExpensive = prices.maxByOrNull { it.pricePerKwh }
-    val now = prices.find { it.isNow }
 
     Column(
         modifier = Modifier
@@ -33,7 +37,6 @@ fun PriceGraph(viewModel: PriceViewModel = viewModel()) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Tre overskrifter
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
@@ -43,7 +46,7 @@ fun PriceGraph(viewModel: PriceViewModel = viewModel()) {
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "${now?.pricePerKwh} kr\nLige nu",
+                text = "1.4 kr\nLige nu", // hard coded for at undgå at bruge local time.
                 textAlign = TextAlign.Center
             )
             Text(
@@ -52,12 +55,7 @@ fun PriceGraph(viewModel: PriceViewModel = viewModel()) {
             )
         }
 
-
-        // Grafen
         GraphWithTiltedPricesAndTimes(prices = prices)
-
-
-
 
     }
 }@Composable
@@ -80,7 +78,6 @@ fun GraphWithTiltedPricesAndTimes(prices: List<Price>) {
             val barLeft = index * barWidth
 
             val barColor = when {
-                price.isNow -> Color.Gray
                 price.pricePerKwh > 2.0 -> Color(0xFFFFC107)
                 else -> Color(0xFF4CAF50)
             }

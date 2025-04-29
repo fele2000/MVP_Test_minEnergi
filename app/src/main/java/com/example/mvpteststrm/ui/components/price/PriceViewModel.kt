@@ -1,15 +1,13 @@
-package com.example.mvpteststrm.ui.price
+package com.example.mvpteststrm.ui.components.price
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import com.example.mvpteststrm.data.model.Price
+import java.time.LocalTime
 
 class PriceViewModel : ViewModel() {
-
-    // Brug StateFlow i Compose
-    private val _prices = MutableStateFlow(generateMockPrices())
-    val prices: StateFlow<List<Price>> = _prices
+    val prices: StateFlow<List<Price>> = MutableStateFlow(generateMockPrices())
 
     companion object {
         private fun generateMockPrices(): List<Price> {

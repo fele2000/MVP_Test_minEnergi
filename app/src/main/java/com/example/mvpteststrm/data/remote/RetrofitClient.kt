@@ -3,6 +3,8 @@ package com.example.mvpteststrm.data.remote
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
+// Vi havde problemer med API'et, så vi valgte ikke at bruge dette kode, men lave mockup data i PriceViewModel
 object RetrofitClient {
 
     private const val BASE_URL = "Api"

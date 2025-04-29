@@ -1,5 +1,7 @@
 package com.example.mvpteststrm.ui.landing
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,8 +17,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mvpteststrm.R
 import com.example.mvpteststrm.ui.components.BottomNavigationBar
-import com.example.mvpteststrm.ui.price.PriceGraph
+import com.example.mvpteststrm.ui.components.price.PriceGraph
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun LandingPage(navController: NavController) {
 
