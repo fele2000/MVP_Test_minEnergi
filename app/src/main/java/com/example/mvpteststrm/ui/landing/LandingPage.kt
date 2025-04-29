@@ -116,7 +116,7 @@ fun LandingPage(navController: NavController) {
                         .width(375.dp)
                         .height(45.dp)
                         .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp)) // <-- Add shadow here
-                        .background(Color(0xFF0579F8), shape = RoundedCornerShape(8.dp))
+                        .background(Color(0xFF2196F3), shape = RoundedCornerShape(8.dp))
                         .align(Alignment.CenterHorizontally)
                 ) {
 
