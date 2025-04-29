@@ -151,7 +151,6 @@ fun PlanlaegPage(navController: NavController) {
             }
         }
 
-        BottomNavigationBar(navController, selectedItem = "planlaeg")
     }
 }
 
