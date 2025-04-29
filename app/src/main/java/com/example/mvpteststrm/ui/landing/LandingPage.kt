@@ -62,7 +62,7 @@ fun LandingPage(navController: NavController) {
            PriceGraph()
        }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(14.dp))
 
         Box(
             contentAlignment = Alignment.Center,
@@ -80,7 +80,7 @@ fun LandingPage(navController: NavController) {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(9.dp))
         Box(
             modifier = Modifier
                 .width(375.dp)
@@ -92,7 +92,9 @@ fun LandingPage(navController: NavController) {
                     navController.navigate("scorePage")
                 }
                 .align(Alignment.CenterHorizontally)
-        ) {
+        )
+
+        {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
