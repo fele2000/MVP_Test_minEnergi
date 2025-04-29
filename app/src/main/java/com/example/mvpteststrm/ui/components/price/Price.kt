@@ -88,22 +88,20 @@ fun GraphWithTiltedPricesAndTimes(prices: List<Price>) {
                 val textPaint = android.graphics.Paint().apply {
                     color = android.graphics.Color.BLACK
                     textAlign = android.graphics.Paint.Align.CENTER
-                    textSize = 24f
+                    textSize = 28f
                     isAntiAlias = true
                 }
                 val x = barLeft + (barWidth * 0.62f)
                 val y = priceLabelHeight - 25f
-                rotate(-70f, x, y) // Rotate around the text position (negative = tilt right)
+                rotate(-70f, x, y)
                 drawText(
                     String.format("%.1f", price.pricePerKwh),
                     x,
                     y,
                     textPaint
                 )
-                restore() // Restore to normal after rotation
+                restore()
             }
-
-            // Draw the bar
             drawRect(
                 color = barColor,
                 topLeft = Offset(barLeft,
@@ -111,13 +109,11 @@ fun GraphWithTiltedPricesAndTimes(prices: List<Price>) {
                 ),
                 size = Size(barWidth * 0.8f, barHeight.toFloat())
             )
-
-            // Draw time label under the bar
             drawContext.canvas.nativeCanvas.apply {
                 val timePaint = android.graphics.Paint().apply {
                     color = android.graphics.Color.DKGRAY
                     textAlign = android.graphics.Paint.Align.CENTER
-                    textSize = 22f
+                    textSize = 27f
                     isAntiAlias = true
 
                 }
