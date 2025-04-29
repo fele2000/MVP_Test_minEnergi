@@ -1,6 +1,5 @@
 package com.example.mvpteststrm.ui.planlaeg
 
-import MockCalendar
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mvpteststrm.ui.components.BottomNavigationBar
+import com.example.mvpteststrm.ui.components.MockCalendar
 import com.example.mvpteststrm.ui.components.price.PriceGraph
 
 @OptIn(ExperimentalMaterial3Api::class)
