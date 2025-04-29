@@ -85,11 +85,12 @@ fun LandingPage(navController: NavController) {
             modifier = Modifier
                 .width(375.dp)
                 .height(140.dp)
-                .shadow(elevation = 6.dp, shape = RoundedCornerShape(12.dp))
 
+                .shadow(elevation = 6.dp, shape = RoundedCornerShape(12.dp))
                 .background(Color(0xFFFFDD75), shape = RoundedCornerShape(6.dp)) // fallback background
+
                 .clickable {
-                    navController.navigate("scorePage")
+                    navController.navigate("score")
                 }
                 .align(Alignment.CenterHorizontally)
         )

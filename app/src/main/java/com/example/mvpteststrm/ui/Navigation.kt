@@ -18,6 +18,8 @@ import com.example.mvpteststrm.ui.forbrug.ForbrugPage
 import com.example.mvpteststrm.ui.landing.LandingPage
 import com.example.mvpteststrm.ui.planlaeg.PlanlaegPage
 import com.example.mvpteststrm.ui.profil.ProfilPage
+import com.example.mvpteststrm.ui.score.ScorePage
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation() {
@@ -42,6 +44,8 @@ fun Navigation() {
             composable("findSelskaber") { FindSelskaberPage(navController) }
             composable("planlaeg") { PlanlaegPage(navController) }
             composable("profil") { ProfilPage(navController) }
+            composable("score") { ScorePage(navController)
+            }
         }
     }
 }
