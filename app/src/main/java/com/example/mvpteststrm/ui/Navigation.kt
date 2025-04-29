@@ -1,5 +1,7 @@
 package com.example.mvpteststrm.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -16,6 +18,7 @@ import com.example.mvpteststrm.ui.forbrug.ForbrugPage
 import com.example.mvpteststrm.ui.landing.LandingPage
 import com.example.mvpteststrm.ui.planlaeg.PlanlaegPage
 import com.example.mvpteststrm.ui.profil.ProfilPage
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
@@ -32,6 +35,7 @@ fun Navigation() {
             navController = navController,
             startDestination = "landing",
             modifier = Modifier.padding(innerPadding)
+
         ) {
             composable("landing") { LandingPage(navController) }
             composable("forbrug") { ForbrugPage(navController) }
@@ -41,3 +45,4 @@ fun Navigation() {
         }
     }
 }
+vespos-xaNpi9-wazziw

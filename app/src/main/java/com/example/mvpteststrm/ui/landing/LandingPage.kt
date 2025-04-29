@@ -90,13 +90,15 @@ fun LandingPage(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "CO2-venlig strøm: 52%",
+                    text = "CO2-venlig strøm: 53%",
                     color = Color.White,
                     fontSize = 20.sp
                 )
 
             }
         }
+
+
 
 
 
