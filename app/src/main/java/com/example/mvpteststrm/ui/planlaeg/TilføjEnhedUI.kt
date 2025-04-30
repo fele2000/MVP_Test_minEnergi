@@ -38,10 +38,11 @@ fun TilføjEnhedUI(onDeviceSelected: (Device) -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+
     ) {
         Text(
-            text = "Vælg Apparat",
+            text = "Vælg Enhed",
             fontSize = 22.sp,
             color = Color.Black,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -63,8 +64,8 @@ fun TilføjEnhedUI(onDeviceSelected: (Device) -> Unit) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.fillMaxWidth()
         ) {
-           // DeviceIcon(R.drawable.ic_oven) { /* Ovn */ }
-            // DeviceIcon(R.drawable.ic_microwave) { /* Mikroovn */ }
+           DeviceIcon(R.drawable.baseline_microwave_24)  {}
+            DeviceIcon(R.drawable.outline_oven_24) {}
         }
 
         // Tredje række
@@ -72,8 +73,8 @@ fun TilføjEnhedUI(onDeviceSelected: (Device) -> Unit) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.fillMaxWidth()
         ) {
-           //  DeviceIcon(R.drawable.ic_dishwasher) { /* Opvasker */ }
-            // DeviceIcon(R.drawable.ic_question) { /* Andet? */ }
+           DeviceIcon(R.drawable.outline_dishwasher_24) {  }
+            DeviceIcon(R.drawable.baseline_question_mark_24) { }
         }
     }
 }
@@ -85,10 +86,13 @@ fun DeviceIcon(
 ) {
     Box(
         modifier = Modifier
-            .padding(8.dp)
-            .size(90.dp)
+            .padding(start = 8.dp,
+                top = 16.dp,
+                end = 8.dp,
+                bottom = 12.dp)
+            .size(115.dp)
             .clip(RoundedCornerShape(20.dp))
-            .background(Color(0xFF448AFF)) // blå farve
+            .background(Color(0xFF448AFF))
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
@@ -96,7 +100,7 @@ fun DeviceIcon(
             painter = painterResource(id = iconRes),
             contentDescription = null,
             tint = Color.White,
-            modifier = Modifier.size(48.dp)
+            modifier = Modifier.size(72.dp)
         )
     }
 }
