@@ -35,19 +35,55 @@ fun MockCalendar(
     val firstDayOfWeek = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7 // Mandag = 0
     val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
-    val allDates = mutableListOf<String?>()
-    repeat(firstDayOfWeek) { allDates.add(null) }
+    val prevMonthCalendar = Calendar.getInstance().apply {
+        set(currentYear, currentMonth, 1)
+        add(Calendar.MONTH, -1)
+    }
+    val daysInPrevMonth = prevMonthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+
+    val nextMonthCalendar = Calendar.getInstance().apply {
+        set(currentYear, currentMonth, 1)
+        add(Calendar.MONTH, 1)
+    }
+
+    val allDates = mutableListOf<Pair<String?, Boolean>>() // Pair<dateString, isCurrentMonth>
+
+    // Forrige måneds dage
+    for (i in firstDayOfWeek downTo 1) {
+        val day = daysInPrevMonth - i + 1
+        val date = Calendar.getInstance().apply {
+            set(currentYear, currentMonth, 1)
+            add(Calendar.MONTH, -1)
+            set(Calendar.DAY_OF_MONTH, day)
+        }
+        val dateStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date.time)
+        allDates.add(Pair(dateStr, false))
+    }
+
+    // Aktuel måneds dage
     for (day in 1..daysInMonth) {
         val date = Calendar.getInstance().apply {
             set(currentYear, currentMonth, day)
         }
-        allDates.add(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date.time))
+        val dateStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date.time)
+        allDates.add(Pair(dateStr, true))
     }
-    while (allDates.size % 7 != 0) allDates.add(null)
+
+    // Næste måneds dage (for at fylde rækkerne ud)
+    val nextDaysToShow = (7 - allDates.size % 7) % 7
+    for (i in 1..nextDaysToShow) {
+        val date = Calendar.getInstance().apply {
+            set(currentYear, currentMonth, 1)
+            add(Calendar.MONTH, 1)
+            set(Calendar.DAY_OF_MONTH, i)
+        }
+        val dateStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date.time)
+        allDates.add(Pair(dateStr, false))
+    }
+
 
     val weeks = allDates.chunked(7)
     val daysOfWeek = listOf("M", "T", "O", "T", "F", "L", "S")
-
     val monthName = SimpleDateFormat("MMMM", Locale("da", "DK")).format(calendar.time).replaceFirstChar { it.uppercase() }
 
     Column(
@@ -58,7 +94,6 @@ fun MockCalendar(
     ) {
         Spacer(modifier = Modifier.height(8.dp))
 
-        // År
         Text(
             text = currentYear.toString(),
             fontSize = 14.sp,
@@ -66,7 +101,6 @@ fun MockCalendar(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
-        // Måned + navigation
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -89,13 +123,11 @@ fun MockCalendar(
                     }
                     .padding(horizontal = 16.dp)
             )
-
             Text(
                 text = monthName,
                 fontSize = 28.sp,
                 color = Color.White
             )
-
             Text(
                 text = ">",
                 fontSize = 24.sp,
@@ -113,7 +145,6 @@ fun MockCalendar(
             )
         }
 
-        // Ugedage
         Row(modifier = Modifier.fillMaxWidth()) {
             daysOfWeek.forEach {
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
@@ -124,7 +155,6 @@ fun MockCalendar(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Kalender-rækker
         Column(modifier = Modifier.weight(1f)) {
             weeks.forEach { week ->
                 Row(
@@ -133,9 +163,14 @@ fun MockCalendar(
                         .weight(1f),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    week.forEach { dateStr ->
+                    week.forEach { (dateStr, isCurrentMonth) ->
                         val isToday = dateStr == today
                         val isSelected = dateStr == selectedDate
+
+                        val cal = Calendar.getInstance().apply {
+                            time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(dateStr)!!
+                        }
+                        val day = cal.get(Calendar.DAY_OF_MONTH)
 
                         Box(
                             modifier = Modifier
@@ -153,36 +188,33 @@ fun MockCalendar(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Spacer(modifier = Modifier.height(6.dp))
-                                if (dateStr != null) {
-                                    val cal = Calendar.getInstance().apply {
-                                        time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(dateStr)!!
+                                when {
+                                    isSelected -> {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(28.dp)
+                                                .background(Color(0xFF81C784), CircleShape),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(text = "$day", color = Color.Black, fontSize = 14.sp)
+                                        }
                                     }
-                                    val day = cal.get(Calendar.DAY_OF_MONTH)
-
-                                    when {
-                                        isSelected -> {
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(28.dp)
-                                                    .background(Color(0xFF81C784), CircleShape),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Text(text = "$day", color = Color.Black, fontSize = 14.sp)
-                                            }
+                                    isToday -> {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(28.dp)
+                                                .background(Color(0xFF64B5F6), CircleShape),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(text = "$day", color = Color.Black, fontSize = 14.sp)
                                         }
-                                        isToday -> {
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(28.dp)
-                                                    .background(Color(0xFF64B5F6), CircleShape),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Text(text = "$day", color = Color.Black, fontSize = 14.sp)
-                                            }
-                                        }
-                                        else -> {
-                                            Text(text = "$day", color = Color.White, fontSize = 14.sp)
-                                        }
+                                    }
+                                    else -> {
+                                        Text(
+                                            text = "$day",
+                                            color = if (isCurrentMonth) Color.White else Color.Gray,
+                                            fontSize = 14.sp
+                                        )
                                     }
                                 }
                             }
