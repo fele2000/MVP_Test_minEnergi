@@ -1,6 +1,7 @@
 package com.example.mvpteststrm.ui.planlaeg
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -21,7 +22,7 @@ fun TilføjEnhedIndstillinger(
     selectedDate: String,
     onDeviceCreated: (Device) -> Unit,
     onClose: () -> Unit
-){
+) {
     var selectedColor by remember { mutableStateOf(Color(0xFF4CAF50)) } // standard: grøn
     var selectedTimeRange by remember { mutableStateOf("14-17") }
 
@@ -68,6 +69,11 @@ fun TilføjEnhedIndstillinger(
                         .padding(8.dp)
                         .size(36.dp)
                         .background(color = color, shape = CircleShape)
+                        .border(
+                            width = if (selectedColor == color) 3.dp else 1.dp,
+                            color = if (selectedColor == color) Color.Black else Color.Gray,
+                            shape = CircleShape
+                        )
                         .clickable { selectedColor = color }
                 )
             }
@@ -75,19 +81,23 @@ fun TilføjEnhedIndstillinger(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Button(onClick = {
-            onDeviceCreated(
-                Device(
-                    name = "Vaskemaskine",
-                    timeRange = selectedTimeRange,
-                    icon = iconRes,
-                    color = selectedColor.toArgb().toLong(), // 👈 fix
-                    date = selectedDate ?: "" // 👈 fix
+        Button(
+            onClick = {
+                onDeviceCreated(
+                    Device(
+                        name = "Vaskemaskine",
+                        timeRange = selectedTimeRange,
+                        icon = iconRes,
+                        color = selectedColor.toArgb().toLong(),
+                        date = selectedDate
+                    )
                 )
-            )
-
-        }) {
-            Text("Tilføj")
+                onClose()
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = selectedColor),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Tilføj", color = Color.White)
         }
     }
 }

@@ -24,6 +24,9 @@ import com.example.mvpteststrm.ui.components.MockCalendar
 import com.example.mvpteststrm.ui.components.price.PriceGraph
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -31,7 +34,6 @@ import java.time.format.DateTimeFormatter
 fun PlanlaegPage(navController: NavController) {
     var selectedTab by remember { mutableStateOf("I dag") }
 
-    // Sætter dags dato som startværdi
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     var selectedDate by remember { mutableStateOf(LocalDate.now().format(formatter)) }
 
@@ -40,9 +42,7 @@ fun PlanlaegPage(navController: NavController) {
     val viewModel: PlanlaegViewModel = viewModel()
     val deviceList = viewModel.devices.collectAsState().value
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         Text(
             text = "Planlægning",
             style = MaterialTheme.typography.headlineMedium.copy(fontSize = 28.sp),
@@ -54,7 +54,6 @@ fun PlanlaegPage(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Tabs
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -67,7 +66,7 @@ fun PlanlaegPage(navController: NavController) {
                 modifier = Modifier.clickable { selectedTab = "I dag" }
             ) {
                 Text(
-                    text = selectedDate ?: "I dag",
+                    text = selectedDate,
                     color = if (selectedTab == "I dag") Color.Black else Color.Gray,
                     fontSize = 18.sp
                 )
@@ -106,29 +105,28 @@ fun PlanlaegPage(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         if (selectedTab == "I dag") {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                PriceGraph()
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Column {
-                deviceList
-                    .filter { it.date == selectedDate }
-                    .forEach {
-                        DeviceCard(it)
-                    }
-            }
-
-            Row(
+            LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(onClick = { showSheet = true }) {
-                    Text("Tilføj Enhed")
+                item {
+                    PriceGraph()
+                }
+
+                items(deviceList.filter { it.date == selectedDate }) { device ->
+                    DeviceCard(device)
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Button(onClick = { showSheet = true }) {
+                        Text("Tilføj Enhed")
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp)) // lidt ekstra plads nederst
                 }
             }
 
@@ -177,7 +175,8 @@ fun DeviceCard(device: Device) {
         Icon(
             painter = painterResource(id = device.icon),
             contentDescription = device.name,
-            modifier = Modifier.size(26.dp)
+            modifier = Modifier.size(26.dp),
+            tint = Color.Black
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = device.name, fontSize = 18.sp)
