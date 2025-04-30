@@ -1,7 +1,6 @@
 package com.example.mvpteststrm.ui.planlaeg
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,81 +17,74 @@ import com.example.mvpteststrm.R
 import com.example.mvpteststrm.data.model.planlaeg.Device
 
 @Composable
-fun TilføjEnhedUI(
-    selectedDate: String?,
-    onDeviceSelected: (Device) -> Unit
-) {
-    var name by remember { mutableStateOf(TextFieldValue("")) }
-    var timeRange by remember { mutableStateOf(TextFieldValue("")) }
-    var selectedColor by remember { mutableStateOf(Color.Red) }
-
-    val colorOptions = listOf(Color.Red, Color.Blue, Color.Green, Color.Yellow, Color.Cyan, Color.Magenta)
-
+fun TilføjEnhedUI(onDeviceSelected: (Device) -> Unit) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(24.dp)
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+
     ) {
-        Text("Tilføj Enhed", style = MaterialTheme.typography.headlineSmall)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Navn på enhed") },
-            modifier = Modifier.fillMaxWidth()
+        Text(
+            text = "Vælg Enhed",
+            fontSize = 22.sp,
+            color = Color.Black,
+            modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = timeRange,
-            onValueChange = { timeRange = it },
-            label = { Text("Tidsrum (fx 08:00 - 10:00)") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text("Vælg farve:")
+        // Første række
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            colorOptions.forEach { color ->
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(color, shape = RoundedCornerShape(50))
-                        .border(
-                            width = if (selectedColor == color) 3.dp else 1.dp,
-                            color = if (selectedColor == color) Color.Black else Color.Gray,
-                            shape = RoundedCornerShape(50)
-                        )
-                        .clickable { selectedColor = color }
-                )
+            DeviceIcon(R.drawable.baseline_local_laundry_service_24) {
+                onDeviceSelected(Device("Vaskemaskine", "14-17", R.drawable.baseline_local_laundry_service_24))
             }
+            DeviceIcon(R.drawable.placeholder_ad_image) { }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Button(
-            onClick = {
-                if (selectedDate != null) {
-                    val device = Device(
-                        name = name.text,
-                        icon = R.drawable.baseline_local_laundry_service_24, // Skift evt. til dit eget ikon
-                        timeRange = timeRange.text,
-                        color = selectedColor.toArgb().toLong(),
-                        date = selectedDate
-                    )
-                    onDeviceSelected(device)
-                }
-            },
-            enabled = name.text.isNotBlank() && timeRange.text.isNotBlank() && selectedDate != null
+        // Anden række
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Tilføj")
+           DeviceIcon(R.drawable.baseline_microwave_24)  {}
+            DeviceIcon(R.drawable.outline_oven_24) {}
         }
+
+        // Tredje række
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+           DeviceIcon(R.drawable.outline_dishwasher_24) {  }
+            DeviceIcon(R.drawable.baseline_question_mark_24) { }
+        }
+    }
+}
+
+@Composable
+fun DeviceIcon(
+    iconRes: Int,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .padding(start = 8.dp,
+                top = 16.dp,
+                end = 8.dp,
+                bottom = 12.dp)
+            .size(115.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(Color(0xFF448AFF))
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            painter = painterResource(id = iconRes),
+            contentDescription = null,
+            tint = Color.White,
+            modifier = Modifier.size(72.dp)
+        )
     }
 }
