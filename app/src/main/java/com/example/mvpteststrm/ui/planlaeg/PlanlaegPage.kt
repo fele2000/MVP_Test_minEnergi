@@ -106,28 +106,27 @@ fun PlanlaegPage(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         if (selectedTab == "I dag") {
-            Box(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 PriceGraph()
-            }
 
-            Spacer(modifier = Modifier.weight(1f))
-
-            Column {
+                // Tilføjede enheder
                 deviceList
                     .filter { it.date == selectedDate }
                     .forEach {
                         DeviceCard(it)
                     }
-            }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Button(onClick = { showSheet = true }) {
+                Spacer(modifier = Modifier.height(5.dp))
+
+                // Tilføj enhed knap
+                Button(
+                    onClick = { showSheet = true }
+                ) {
                     Text("Tilføj Enhed")
                 }
             }
@@ -139,26 +138,29 @@ fun PlanlaegPage(navController: NavController) {
                         shape = RoundedCornerShape(30.dp),
                         color = Color.LightGray
                     ) {
-                        TilføjEnhedUI(
-                            selectedDate = selectedDate,
-                            onDeviceSelected = { device ->
-                                viewModel.addDevice(device)
-                                showSheet = false
-                            }
-                        )
+                        selectedDate?.let { nonNullDate ->
+                            TilføjEnhedUI(
+                                selectedDate = nonNullDate,
+                                onNavigateToSettings = { date, iconRes, name ->
+                                    showSheet = false
+                                    navController.navigate("tilføjEnhedIndstillinger/$date/$iconRes/$name")
+                                }
+
+                            )
+                        }
                     }
                 }
-            }
-        } else if (selectedTab == "Kalender") {
-            Box(modifier = Modifier.weight(1f)) {
-                MockCalendar(
-                    selectedDate = selectedDate,
-                    onDateSelected = { clickedDate ->
-                        selectedDate = clickedDate
-                        selectedTab = "I dag"
-                    },
-                    devices = deviceList
-                )
+            } else if (selectedTab == "Kalender") {
+                Box(modifier = Modifier.weight(1f)) {
+                    MockCalendar(
+                        selectedDate = selectedDate,
+                        onDateSelected = { clickedDate ->
+                            selectedDate = clickedDate
+                            selectedTab = "I dag"
+                        },
+                        devices = deviceList
+                    )
+                }
             }
         }
     }
@@ -179,9 +181,11 @@ fun DeviceCard(device: Device) {
             contentDescription = device.name,
             modifier = Modifier.size(26.dp)
         )
+
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = device.name, fontSize = 18.sp)
         Spacer(modifier = Modifier.weight(1f))
         Text(text = "Tidsrum: ${device.timeRange}", fontSize = 18.sp)
     }
 }
+

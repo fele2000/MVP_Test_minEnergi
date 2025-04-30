@@ -1,93 +1,141 @@
 package com.example.mvpteststrm.ui.planlaeg
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mvpteststrm.data.model.planlaeg.Device
+import com.example.mvpteststrm.data.model.price.PriceViewModel
 
 @Composable
 fun TilføjEnhedIndstillinger(
-    iconRes: Int,
+    icon: Int,
+    name: String,
     selectedDate: String,
-    onDeviceCreated: (Device) -> Unit,
-    onClose: () -> Unit
-){
-    var selectedColor by remember { mutableStateOf(Color(0xFF4CAF50)) } // standard: grøn
-    var selectedTimeRange by remember { mutableStateOf("14-17") }
+    onSave: (Device) -> Unit
+) {
+    val priceViewModel: PriceViewModel = viewModel()
+    val prices by priceViewModel.prices.collectAsState()
+
+    var duration by remember { mutableStateOf("1") }
+    var fromHour by remember { mutableStateOf("17") }
+    var toHour by remember { mutableStateOf("23") }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Top
     ) {
-        Text("Indstil Enhed", fontSize = 22.sp, color = Color.Black)
+        Text(
+            text = "Indstillinger for $name",
+            fontSize = 22.sp,
+            color = Color.Black
+        )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Icon(
-            painter = painterResource(id = iconRes),
+            painter = painterResource(id = icon),
             contentDescription = null,
-            modifier = Modifier.size(72.dp),
+            modifier = Modifier.size(80.dp),
             tint = Color.Black
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text("Tidsrum:", fontSize = 18.sp)
-        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-            listOf("08-11", "14-17", "18-21").forEach { range ->
-                Text(
-                    text = range,
-                    fontSize = 16.sp,
-                    color = if (selectedTimeRange == range) Color.Black else Color.Gray,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .clickable { selectedTimeRange = range }
-                )
-            }
-        }
+        Text("Varighed i timer", fontSize = 16.sp)
+        TextField(
+            value = duration,
+            onValueChange = { duration = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
+        )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
-        Text("Vælg farve:", fontSize = 18.sp)
-        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-            listOf(Color.Red, Color.Green, Color.Blue, Color.Magenta).forEach { color ->
-                Box(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(36.dp)
-                        .background(color = color, shape = CircleShape)
-                        .clickable { selectedColor = color }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Button(onClick = {
-            onDeviceCreated(
-                Device(
-                    name = "Vaskemaskine",
-                    timeRange = selectedTimeRange,
-                    icon = iconRes,
-                    color = selectedColor.toArgb().toLong(), // 👈 fix
-                    date = selectedDate ?: "" // 👈 fix
-                )
+        Text("Tilgængeligt tidsrum", fontSize = 16.sp)
+        Row(modifier = Modifier.fillMaxWidth()) {
+            TextField(
+                value = fromHour,
+                onValueChange = { fromHour = it },
+                label = { Text("Fra (fx 17)") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 4.dp)
             )
+            TextField(
+                value = toHour,
+                onValueChange = { toHour = it },
+                label = { Text("Til (fx 23)") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 4.dp)
+            )
+        }
 
-        }) {
-            Text("Tilføj")
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = {
+                val start = fromHour.toIntOrNull() ?: 17
+                val end = toHour.toIntOrNull() ?: 23
+                val durationHours = duration.toIntOrNull() ?: 1
+
+                val cheapestStart = findCheapestStartTimeFromPrices(
+                    prices = prices.map { it.time to it.pricePerKwh }.toMap(),
+                    start = start,
+                    end = end,
+                    duration = durationHours
+                )
+
+                val timeRange = if (cheapestStart != null)
+                    "$cheapestStart-${cheapestStart + durationHours}"
+                else "$start-$end"
+
+                onSave(
+                    Device(
+                        name = name,
+                        timeRange = timeRange,
+                        icon = icon,
+                        color = 0xFF448AFF,
+                        date = selectedDate
+                    )
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Gem Enhed")
         }
     }
+}
+
+fun findCheapestStartTimeFromPrices(
+    prices: Map<Int, Double>,
+    start: Int,
+    end: Int,
+    duration: Int
+): Int? {
+    var cheapestHour: Int? = null
+    var minAvg = Double.MAX_VALUE
+
+    for (hour in start..(end - duration)) {
+        val window = (hour until hour + duration)
+        val avgPrice = window.map { prices[it] ?: Double.MAX_VALUE }.average()
+        if (avgPrice < minAvg) {
+            minAvg = avgPrice
+            cheapestHour = hour
+        }
+    }
+
+    return cheapestHour
 }
