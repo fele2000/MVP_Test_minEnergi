@@ -30,7 +30,7 @@ fun TilføjEnhedUI(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "Vælg Enhed",
@@ -39,17 +39,29 @@ fun TilføjEnhedUI(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    DeviceIcon(R.drawable.baseline_local_laundry_service_24) {
-                        selectedIconRes = R.drawable.baseline_local_laundry_service_24
-                        currentScreen = "settings"
-                    }
-                }
+                val deviceOptions = listOf(
+                    R.drawable.baseline_local_laundry_service_24, // vaskemaskine
+                    R.drawable.placeholder_ad_image, // elbil
+                    R.drawable.baseline_microwave_24, // mikroovn
+                    R.drawable.outline_oven_24, // ovn
+                    R.drawable.outline_dishwasher_24, // opvaskemaskine
+                    R.drawable.baseline_question_mark_24 // andet
+                )
 
-                // Tilføj flere rækker/ikoner her senere
+                deviceOptions.chunked(2).forEach { row ->
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        row.forEach { iconRes ->
+                            DeviceIcon(iconRes) {
+                                selectedIconRes = iconRes
+                                currentScreen = "settings"
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
             }
         }
 
