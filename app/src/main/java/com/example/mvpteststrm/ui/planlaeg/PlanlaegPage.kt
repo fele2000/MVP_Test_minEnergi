@@ -28,6 +28,7 @@ import com.example.mvpteststrm.data.model.planlaeg.PlanlaegViewModel
 import com.example.mvpteststrm.ui.components.BottomNavigationBar
 import com.example.mvpteststrm.ui.components.MockCalendar
 import com.example.mvpteststrm.ui.components.price.PriceGraph
+import kotlinx.coroutines.flow.forEach
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -40,6 +41,7 @@ fun PlanlaegPage(navController: NavController) {
 
     val viewModel: PlanlaegViewModel = viewModel()
     val devices = viewModel.devices
+    val deviceList = devices.collectAsState().value
 
 
     Column(
@@ -131,15 +133,17 @@ fun PlanlaegPage(navController: NavController) {
                     onDateSelected = { clickedDate ->
                         selectedDate = clickedDate
                         selectedTab = "I dag"
-                    }
+                    },
+                    devices = devices.collectAsState().value // 👈 her
                 )
             }
         }
 
         Column {
-            devices.forEach {
+            deviceList.forEach {
                 DeviceCard(it)
             }
+
         }
 
         Row ( modifier = Modifier
@@ -165,11 +169,13 @@ fun PlanlaegPage(navController: NavController) {
                     color = Color.LightGray
                 ) {
                     TilføjEnhedUI(
+                        selectedDate = selectedDate,
                         onDeviceSelected = { device ->
                             viewModel.addDevice(device)
                             showSheet = false
                         }
                     )
+
                 }
             }
         }
