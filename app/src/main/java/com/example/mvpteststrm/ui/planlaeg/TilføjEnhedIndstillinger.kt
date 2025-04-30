@@ -19,11 +19,12 @@ import com.example.mvpteststrm.data.model.planlaeg.Device
 @Composable
 fun TilføjEnhedIndstillinger(
     iconRes: Int,
+    deviceName: String,
     selectedDate: String,
     onDeviceCreated: (Device) -> Unit,
     onClose: () -> Unit
 ) {
-    var selectedColor by remember { mutableStateOf(Color(0xFF4CAF50)) } // standard: grøn
+    var selectedColor by remember { mutableStateOf(Color(0xFF4CAF50)) }
     var selectedTimeRange by remember { mutableStateOf("14-17") }
 
     Column(
@@ -69,11 +70,6 @@ fun TilføjEnhedIndstillinger(
                         .padding(8.dp)
                         .size(36.dp)
                         .background(color = color, shape = CircleShape)
-                        .border(
-                            width = if (selectedColor == color) 3.dp else 1.dp,
-                            color = if (selectedColor == color) Color.Black else Color.Gray,
-                            shape = CircleShape
-                        )
                         .clickable { selectedColor = color }
                 )
             }
@@ -85,19 +81,18 @@ fun TilføjEnhedIndstillinger(
             onClick = {
                 onDeviceCreated(
                     Device(
-                        name = "Vaskemaskine",
+                        name = deviceName,
                         timeRange = selectedTimeRange,
                         icon = iconRes,
                         color = selectedColor.toArgb().toLong(),
                         date = selectedDate
                     )
                 )
-                onClose()
             },
             colors = ButtonDefaults.buttonColors(containerColor = selectedColor),
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Tilføj", color = Color.White)
+            Text("Tilføj")
         }
     }
 }

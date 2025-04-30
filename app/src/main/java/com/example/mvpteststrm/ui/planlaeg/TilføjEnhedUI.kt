@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mvpteststrm.R
 import com.example.mvpteststrm.data.model.planlaeg.Device
-
 @Composable
 fun TilføjEnhedUI(
     selectedDate: String,
@@ -23,6 +22,7 @@ fun TilføjEnhedUI(
 ) {
     var currentScreen by remember { mutableStateOf("main") }
     var selectedIconRes by remember { mutableStateOf<Int?>(null) }
+    var selectedDeviceName by remember { mutableStateOf<String?>(null) }
 
     when (currentScreen) {
         "main" -> {
@@ -32,20 +32,15 @@ fun TilføjEnhedUI(
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Vælg Enhed",
-                    fontSize = 22.sp,
-                    color = Color.Black,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
+                Text("Vælg Enhed", fontSize = 22.sp, color = Color.Black, modifier = Modifier.padding(bottom = 16.dp))
 
                 val deviceOptions = listOf(
-                    R.drawable.baseline_local_laundry_service_24, // vaskemaskine
-                    R.drawable.placeholder_ad_image, // elbil
-                    R.drawable.baseline_microwave_24, // mikroovn
-                    R.drawable.outline_oven_24, // ovn
-                    R.drawable.outline_dishwasher_24, // opvaskemaskine
-                    R.drawable.baseline_question_mark_24 // andet
+                    "Vaskemaskine" to R.drawable.baseline_local_laundry_service_24,
+                    "Elbil" to R.drawable.placeholder_ad_image,
+                    "Mikroovn" to R.drawable.baseline_microwave_24,
+                    "Ovn" to R.drawable.outline_oven_24,
+                    "Opvaskemaskine" to R.drawable.outline_dishwasher_24,
+                    "Andet" to R.drawable.baseline_question_mark_24
                 )
 
                 deviceOptions.chunked(2).forEach { row ->
@@ -53,9 +48,10 @@ fun TilføjEnhedUI(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        row.forEach { iconRes ->
+                        row.forEach { (name, iconRes) ->
                             DeviceIcon(iconRes) {
                                 selectedIconRes = iconRes
+                                selectedDeviceName = name
                                 currentScreen = "settings"
                             }
                         }
@@ -66,9 +62,10 @@ fun TilføjEnhedUI(
         }
 
         "settings" -> {
-            selectedIconRes?.let { iconRes ->
+            if (selectedIconRes != null && selectedDeviceName != null) {
                 TilføjEnhedIndstillinger(
-                    iconRes = iconRes,
+                    iconRes = selectedIconRes!!,
+                    deviceName = selectedDeviceName!!,
                     selectedDate = selectedDate,
                     onDeviceCreated = { device ->
                         onDeviceSelected(device)
@@ -80,6 +77,7 @@ fun TilføjEnhedUI(
         }
     }
 }
+
 
 @Composable
 fun DeviceIcon(
