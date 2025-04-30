@@ -168,13 +168,16 @@ fun PlanlaegPage(navController: NavController) {
                     shape = RoundedCornerShape(30.dp),
                     color = Color.LightGray
                 ) {
-                    TilføjEnhedUI(
-                        selectedDate = selectedDate,
-                        onDeviceSelected = { device ->
-                            viewModel.addDevice(device)
-                            showSheet = false
-                        }
-                    )
+                    selectedDate?.let { nonNullDate ->
+                        TilføjEnhedUI(
+                            selectedDate = nonNullDate,
+                            onDeviceSelected = { device ->
+                                viewModel.addDevice(device)
+                                showSheet = false
+                            }
+                        )
+                    }
+
 
                 }
             }
