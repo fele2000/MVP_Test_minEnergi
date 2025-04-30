@@ -42,7 +42,7 @@ fun ForbrugPage(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
         HistoricalConsumptionSection()
         Spacer(modifier = Modifier.height(24.dp))
-        MinScoreSection()
+        MinScoreSection(navController)
     }
 }
 @Composable
@@ -70,8 +70,7 @@ fun HistoricalConsumptionSection() {
     InfoBullet("Beregn udgifter", "Få et overslag på dine eludgifter før du får din elregning.")
 }
 @Composable
-
-fun MinScoreSection() {
+fun MinScoreSection(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -91,18 +90,16 @@ fun MinScoreSection() {
         )
 
         Button(
-            onClick = { /* TODO */ },
+            onClick = { navController.navigate("score") },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(45.dp)
-                .clip(RoundedCornerShape(8.dp)), // optional visual clip
+                .clip(RoundedCornerShape(8.dp)),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF2196F3), // purple like your screenshot
+                containerColor = Color(0xFF6A4AB5),
                 contentColor = Color.White
             ),
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 4.dp
-            )
+            elevation = ButtonDefaults.buttonElevation(4.dp)
         ) {
             Text("Se hvordan du klarer det")
         }
