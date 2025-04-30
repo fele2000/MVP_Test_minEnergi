@@ -6,11 +6,13 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mvpteststrm.data.model.planlaeg.Device
@@ -152,19 +155,23 @@ fun PlanlaegPage(navController: NavController) {
 
         }
 
+
         if (showSheet) {
-            ModalBottomSheet(
-                onDismissRequest = { showSheet = false },
-                modifier = Modifier.fillMaxHeight(),
-                containerColor = Color.LightGray
-            ) {
-                TilføjEnhedUI( onDeviceSelected = { device ->
-                    viewModel.addDevice(device)
-                    showSheet = false
-                })
+            Dialog(onDismissRequest = { showSheet = false }) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    shape = RoundedCornerShape(30.dp),
+                    color = Color.LightGray
+                ) {
+                    TilføjEnhedUI(
+                        onDeviceSelected = { device ->
+                            viewModel.addDevice(device)
+                            showSheet = false
+                        }
+                    )
+                }
             }
         }
-
     }
 }
 @Composable
