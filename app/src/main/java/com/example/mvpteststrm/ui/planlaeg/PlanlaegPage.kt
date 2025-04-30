@@ -6,13 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,32 +22,30 @@ import com.example.mvpteststrm.data.model.planlaeg.PlanlaegViewModel
 import com.example.mvpteststrm.ui.components.BottomNavigationBar
 import com.example.mvpteststrm.ui.components.MockCalendar
 import com.example.mvpteststrm.ui.components.price.PriceGraph
-import kotlinx.coroutines.flow.forEach
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PlanlaegPage(navController: NavController) {
     var selectedTab by remember { mutableStateOf("I dag") }
-    var selectedDate by remember { mutableStateOf<String?>(null) } // ingen valgt dato i starten
+
+    // Sætter dags dato som startværdi
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    var selectedDate by remember { mutableStateOf(LocalDate.now().format(formatter)) }
 
     var showSheet by remember { mutableStateOf(false) }
 
     val viewModel: PlanlaegViewModel = viewModel()
-    val devices = viewModel.devices
-    val deviceList = devices.collectAsState().value
-
+    val deviceList = viewModel.devices.collectAsState().value
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
-        // Fast overskrift: Planlægning
         Text(
             text = "Planlægning",
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontSize = 28.sp
-            ),
+            style = MaterialTheme.typography.headlineMedium.copy(fontSize = 28.sp),
             color = Color.Black,
             modifier = Modifier
                 .fillMaxWidth()
@@ -62,7 +54,7 @@ fun PlanlaegPage(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Tabs - viser den valgte dato som undertitel
+        // Tabs
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -70,11 +62,9 @@ fun PlanlaegPage(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Dato-tab
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .clickable { selectedTab = "I dag" }
+                modifier = Modifier.clickable { selectedTab = "I dag" }
             ) {
                 Text(
                     text = selectedDate ?: "I dag",
@@ -87,16 +77,14 @@ fun PlanlaegPage(navController: NavController) {
                         modifier = Modifier
                             .width(30.dp)
                             .height(2.dp)
-                            .background(Color.Black) // Sort streg under valgt
+                            .background(Color.Black)
                     )
                 }
             }
 
-            // Kalender-tab
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .clickable { selectedTab = "Kalender" }
+                modifier = Modifier.clickable { selectedTab = "Kalender" }
             ) {
                 Text(
                     text = "Kalender",
@@ -109,23 +97,58 @@ fun PlanlaegPage(navController: NavController) {
                         modifier = Modifier
                             .width(30.dp)
                             .height(2.dp)
-                            .background(Color.Black) // Sort streg under valgt
+                            .background(Color.Black)
                     )
                 }
             }
         }
 
-
         Spacer(modifier = Modifier.height(16.dp))
 
         if (selectedTab == "I dag") {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
+            Box(modifier = Modifier.fillMaxWidth()) {
                 PriceGraph()
             }
+
             Spacer(modifier = Modifier.weight(1f))
+
+            Column {
+                deviceList
+                    .filter { it.date == selectedDate }
+                    .forEach {
+                        DeviceCard(it)
+                    }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(onClick = { showSheet = true }) {
+                    Text("Tilføj Enhed")
+                }
+            }
+
+            if (showSheet) {
+                Dialog(onDismissRequest = { showSheet = false }) {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        shape = RoundedCornerShape(30.dp),
+                        color = Color.LightGray
+                    ) {
+                        TilføjEnhedUI(
+                            selectedDate = selectedDate,
+                            onDeviceSelected = { device ->
+                                viewModel.addDevice(device)
+                                showSheet = false
+                            }
+                        )
+                    }
+                }
+            }
         } else if (selectedTab == "Kalender") {
             Box(modifier = Modifier.weight(1f)) {
                 MockCalendar(
@@ -134,56 +157,13 @@ fun PlanlaegPage(navController: NavController) {
                         selectedDate = clickedDate
                         selectedTab = "I dag"
                     },
-                    devices = devices.collectAsState().value // 👈 her
+                    devices = deviceList
                 )
-            }
-        }
-
-        Column {
-            deviceList.forEach {
-                DeviceCard(it)
-            }
-
-        }
-
-        Row ( modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically) {
-
-            Button(
-                onClick = { showSheet = true }
-            ) {
-                Text("Tilføj Enhed")
-            }
-
-        }
-
-
-        if (showSheet) {
-            Dialog(onDismissRequest = { showSheet = false }) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    shape = RoundedCornerShape(30.dp),
-                    color = Color.LightGray
-                ) {
-                    selectedDate?.let { nonNullDate ->
-                        TilføjEnhedUI(
-                            selectedDate = nonNullDate,
-                            onDeviceSelected = { device ->
-                                viewModel.addDevice(device)
-                                showSheet = false
-                            }
-                        )
-                    }
-
-
-                }
             }
         }
     }
 }
+
 @Composable
 fun DeviceCard(device: Device) {
     Row(
@@ -199,7 +179,6 @@ fun DeviceCard(device: Device) {
             contentDescription = device.name,
             modifier = Modifier.size(26.dp)
         )
-
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = device.name, fontSize = 18.sp)
         Spacer(modifier = Modifier.weight(1f))
