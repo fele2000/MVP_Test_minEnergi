@@ -5,5 +5,5 @@ data class Device(
     val timeRange: String,
     val icon: Int,
     val color: Long,
-    val date: String // Datoen enheden er tilknyttet
+    val date: String // dato i tekst/string format
 )

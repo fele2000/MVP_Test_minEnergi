@@ -47,11 +47,28 @@ fun TilføjEnhedUI(
                         selectedIconRes = R.drawable.baseline_local_laundry_service_24
                         currentScreen = "settings"
                     }
+                    DeviceIcon(R.drawable.placeholder_ad_image) { }
                 }
 
-                // Tilføj flere rækker/ikoner her senere
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    DeviceIcon(R.drawable.outline_oven_24) { }
+                    DeviceIcon(R.drawable.baseline_microwave_24) {  }
+                }
+
+                // Tredje række
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    DeviceIcon(R.drawable.outline_dishwasher_24) { }
+                    DeviceIcon(R.drawable.baseline_question_mark_24) {  }
+                }
             }
         }
+
 
         "settings" -> {
             selectedIconRes?.let { iconRes ->

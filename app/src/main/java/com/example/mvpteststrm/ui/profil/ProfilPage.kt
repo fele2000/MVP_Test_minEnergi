@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -55,14 +56,57 @@ fun ProfilPage(navController: NavController) {
             ProfileOption("“I Stedet” Blog", "Få nyheder om elmarkedet")
         }
         Spacer(modifier = Modifier.height(24.dp))
-        Image(
-            painter = painterResource(id = R.drawable.speedometer),
-            contentDescription = "CO2 Dial",
-            contentScale = ContentScale.Fit, // Important: don't crop, fit nicely
+        Box(
             modifier = Modifier
-                .height(200.dp)
-                .fillMaxWidth()
-        )
+                .width(375.dp)
+                .height(140.dp)
+
+                .shadow(elevation = 6.dp, shape = RoundedCornerShape(12.dp))
+                .background(Color(0xFFFFDD75), shape = RoundedCornerShape(6.dp)) // fallback background
+
+                .clickable {
+                    navController.navigate("score")
+                }
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(5.dp), // Padding inside the box
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.speedometer),
+                    contentDescription = "CO2 Dial",
+                    contentScale = ContentScale.Fit, // Important: don't crop, fit nicely
+                    modifier = Modifier
+                        .weight(2.5f)
+                        .fillMaxWidth()
+                )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .width(375.dp)
+                        .height(45.dp)
+                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp)) // <-- Add shadow here
+                        .background(Color(0xFF2196F3), shape = RoundedCornerShape(8.dp))
+                        .align(Alignment.CenterHorizontally)
+                ) {
+
+                    Text(
+                        text = "Klik her og udforsk din Strøm Score!",
+                        color = Color(0xFFFFFFFF),
+                        fontSize = 20.sp,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+
+
+                    )
+                }
+            }
+        }
+
 
     }
 }
@@ -73,12 +117,12 @@ fun ProfileOption(title: String, subtitle: String) {
             .fillMaxWidth()
             .padding(vertical = 6.dp)
             .background(Color.White, shape = RoundedCornerShape(12.dp))
-            .clickable { /* TODO: navController.navigate(...) */ }
+            .clickable {  }
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_profile), // Replace with actual icons later
+            painter = painterResource(id = R.drawable.baseline_hexagon_24), // defualt ikoner
             contentDescription = null,
             modifier = Modifier.size(18.dp)
         )

@@ -14,6 +14,6 @@ object RetrofitClient {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(PriceApiService::class.java) //forbindes til priceapiservice
+            .create(PriceApiService::class.java) //forbindelse til priceapiservice
     }
 }

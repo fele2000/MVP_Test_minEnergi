@@ -69,7 +69,7 @@ fun LandingPage(navController: NavController) {
             modifier = Modifier
                 .width(375.dp)
                 .height(45.dp)
-                .shadow(elevation = 6.dp, shape = RoundedCornerShape(8.dp)) // <-- Add shadow here
+                .shadow(elevation = 6.dp, shape = RoundedCornerShape(8.dp))
                 .background(Color(0xFF22FF1B), shape = RoundedCornerShape(4.dp))
                 .align(Alignment.CenterHorizontally)
         ) {
@@ -87,7 +87,7 @@ fun LandingPage(navController: NavController) {
                 .height(140.dp)
 
                 .shadow(elevation = 6.dp, shape = RoundedCornerShape(12.dp))
-                .background(Color(0xFFFFDD75), shape = RoundedCornerShape(6.dp)) // fallback background
+                .background(Color(0xFFFFDD75), shape = RoundedCornerShape(6.dp))
 
                 .clickable {
                     navController.navigate("score")
@@ -99,14 +99,14 @@ fun LandingPage(navController: NavController) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(5.dp), // Padding inside the box
+                    .padding(5.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.speedometer),
                     contentDescription = "CO2 Dial",
-                    contentScale = ContentScale.Fit, // Important: don't crop, fit nicely
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .weight(2.5f)
                         .fillMaxWidth()
@@ -116,7 +116,7 @@ fun LandingPage(navController: NavController) {
                     modifier = Modifier
                         .width(375.dp)
                         .height(45.dp)
-                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp)) // <-- Add shadow here
+                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp))
                         .background(Color(0xFF2196F3), shape = RoundedCornerShape(8.dp))
                         .align(Alignment.CenterHorizontally)
                 ) {

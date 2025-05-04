@@ -23,7 +23,7 @@ fun TilføjEnhedIndstillinger(
     onDeviceCreated: (Device) -> Unit,
     onClose: () -> Unit
 ) {
-    var selectedColor by remember { mutableStateOf(Color(0xFF4CAF50)) } // standard: grøn
+    var selectedColor by remember { mutableStateOf(Color(0xFF4CAF50)) }
     var selectedTimeRange by remember { mutableStateOf("14-17") }
 
     Column(

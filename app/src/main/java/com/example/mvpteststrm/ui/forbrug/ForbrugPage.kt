@@ -1,5 +1,6 @@
 package com.example.mvpteststrm.ui.forbrug
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -83,25 +85,41 @@ fun MinScoreSection(navController: NavController) {
             fontSize = 18.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        Text(
-            text = "Se dine besparelser som aldrig før, og tag hånd på dit el-forbrug",
-            fontSize = 14.sp,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        Button(
-            onClick = { navController.navigate("score") },
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(45.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF6A4AB5),
-                contentColor = Color.White
-            ),
-            elevation = ButtonDefaults.buttonElevation(4.dp)
+                .fillMaxSize()
+                .padding(5.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Se hvordan du klarer det")
+            Image(
+                painter = painterResource(id = R.drawable.speedometer),
+                contentDescription = "CO2 Dial",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .weight(2.5f)
+                    .fillMaxWidth()
+            )
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .width(375.dp)
+                    .height(45.dp)
+                    .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp))
+                    .background(Color(0xFF2196F3), shape = RoundedCornerShape(8.dp))
+                    .align(Alignment.CenterHorizontally)
+            ) {
+
+                Text(
+                    text = "Klik her og udforsk din Strøm Score!",
+                    color = Color(0xFFFFFFFF),
+                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier
+
+
+                )
+            }
         }
     }
 }
@@ -115,7 +133,7 @@ fun InfoBullet(title: String, description: String) {
         verticalAlignment = Alignment.Top
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_profile), // Replace with actual icons later
+            painter = painterResource(id = R.drawable.baseline_hexagon_24),
             contentDescription = null,
             modifier = Modifier.size(18.dp)
         )

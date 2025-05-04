@@ -28,7 +28,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PlanlaegPage(navController: NavController) {
@@ -126,7 +126,7 @@ fun PlanlaegPage(navController: NavController) {
                         Text("Tilføj Enhed")
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp)) // lidt ekstra plads nederst
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
 
